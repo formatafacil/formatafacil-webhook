@@ -16,7 +16,7 @@ def cria_ou_atualiza_repositorio(bare_dir, full_name)
         logger.debug "Projeto atualizado com sucesso: #{full_name}"
       end
     else
-      FileUtils::mkdir_p "bare/#{working_dir}"
+      FileUtils::mkdir_p bare_dir
       system "git clone --mirror https://github.com/#{full_name} #{bare_dir}"
       logger.debug "Projeto clonado com sucesso: #{full_name}"
     end
