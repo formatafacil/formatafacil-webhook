@@ -49,8 +49,8 @@ post '/artigo' do
     logger.debug "Executando formatafacil em #{public_dir}"
     system "formatafacil artigo"
     
-    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
-    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
+    system "/usr/bin/pdflatex -interaction=nonstopmode artigo.tex"
+    system "/usr/bin/pdflatex -interaction=nonstopmode artigo.tex"
   end
   
 end
