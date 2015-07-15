@@ -6,3 +6,4 @@ gem 'sinatra',     '~> 1.4.6'
 gem "formatafacil"
 gem "formatafacil-templates"
 gem "tilt"
+gem "erubis"
