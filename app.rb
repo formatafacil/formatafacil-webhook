@@ -54,8 +54,8 @@ post '/artigo' do
     logger.info "Iniciando compilação de artigo.tex:"
     system "head artigo.tex"
     
-    system "/usr/bin/pdflatex artigo.tex"
-    system "/usr/bin/pdflatex artigo.tex"
+    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
+    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
   end
   
 end
