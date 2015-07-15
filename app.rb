@@ -50,8 +50,7 @@ post '/artigo' do
   Dir.chdir(public_dir) do
     logger.debug "Executando formatafacil em #{public_dir}"
     
-    system "locale"
-    system "formatafacil"
+    system "formatafacil artigo"
     
     logger.info "Iniciando compilação de artigo.tex:"
     system "head artigo.tex"
