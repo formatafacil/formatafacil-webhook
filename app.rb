@@ -49,6 +49,8 @@ post '/artigo' do
     logger.debug "Executando formatafacil em #{public_dir}"
     system "formatafacil artigo"
     
+    logger.info "Iniciando compilação de artigo.tex"
+    
     system "/usr/bin/pdflatex -interaction=nonstopmode artigo.tex"
     system "/usr/bin/pdflatex -interaction=nonstopmode artigo.tex"
   end
