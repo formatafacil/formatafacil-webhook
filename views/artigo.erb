@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Sinatra Website</title>
+  </head>
+  <body>
+    <div id='wrapper'>
+      <div id='header' style="text-align:center">
+        <div id='icons' >
+          <a href="https://groups.google.com/forum/#!forum/formatafacil" title="Grupo para discursão e postagens de dúvidas"><img src="/icons/forum.svg"/></a>
+          <a href="<%= @log_file %>" title="Acessa o log de geração do PDF"><img src="/icons/log-file.svg"/></a><img src="/icons/ic_help_black_24px.svg"/>
+        </div>
+        <pre title="Data da última geração do PDF (horário do servidor)"><%= @data_modificacao %></pre>        
+      </div>
+<!-- see http://ningbit.github.io/blog/2013/06/28/how-to-integrate-bootstrap-css-into-your-sinatra-site/ -->
+      </object>
+      <div id='content'>
+      <embed src="/artigo/edusantana/formatafacil-artigo/artigo.pdf" width="100%" height="600" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+      </div>
+      <div id='side_bar'>
+        <h2>Side Bar</h2>
+        <p>
+          This is the side bar of the webpage
+        </p>
+      </div>
+      <div id='footer'>
+        <p>
+          This is the footer.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

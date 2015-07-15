@@ -24,3 +24,4 @@ DEPENDENCIES
   formatafacil-templates
   json (= 1.8.3)
   sinatra (~> 1.4.6)
+  tilt
