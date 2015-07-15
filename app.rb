@@ -49,8 +49,8 @@ post '/artigo' do
     logger.debug "Executando formatafacil em #{public_dir}"
     system "formatafacil artigo"
     
-    system "/usr/bin/pdflatex -8bit -etex -halt-on-error -synctex=1 -interaction=batchmode artigo.tex"
-    system "/usr/bin/pdflatex -8bit -etex -halt-on-error -synctex=1 -interaction=batchmode artigo.tex"
+    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
+    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
   end
   
 end
