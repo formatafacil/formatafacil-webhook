@@ -33,14 +33,14 @@ end
 
 post '/artigo' do
   push = JSON.parse(request.body.read)
-  puts "I got some JSON: #{push.inspect}"
+  logger.info "I got some JSON: #{push.inspect}"
   
   full_name = push['repository']['full_name'] # edusantana/playground-asciidoc
   owner = full_name.split(/\//)[0] #edusantana
   repo_name = owner = full_name.split(/\//)[1] #playground-asciidoc
   working_dir = full_name
   bare_dir   = "bare/#{full_name}"
-  public_dir = "public/artigos/#{full_name}"
+  public_dir = "public/artigo/#{full_name}"
     
   cria_ou_atualiza_repositorio(bare_dir, full_name)
   extrai_arquivos_da_head(bare_dir, public_dir)
@@ -49,8 +49,8 @@ post '/artigo' do
     logger.debug "Executando formatafacil em #{public_dir}"
     system "formatafacil artigo"
     
-    system "pdflatex -interaction=batchmode artigo.tex"
-    system "pdflatex -interaction=batchmode artigo.tex"
+    system "/usr/bin/pdflatex -8bit -etex -halt-on-error -synctex=1 -interaction=batchmode artigo.tex"
+    system "/usr/bin/pdflatex -8bit -etex -halt-on-error -synctex=1 -interaction=batchmode artigo.tex"
   end
   
 end
