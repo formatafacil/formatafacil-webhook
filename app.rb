@@ -13,12 +13,12 @@ def cria_ou_atualiza_repositorio(bare_dir, full_name)
     if File.exist?(bare_dir)
       Dir.chdir(bare_dir) do
         system "git fetch"
-        logger.debug "Projeto atualizado com sucesso: #{full_name}"
+        logger.info "Projeto atualizado com sucesso: #{full_name}"
       end
     else
       FileUtils::mkdir_p bare_dir
       system "git clone --mirror https://github.com/#{full_name} #{bare_dir}"
-      logger.debug "Projeto clonado com sucesso: #{full_name}"
+      logger.info "Projeto clonado com sucesso: #{full_name}"
     end
 end
 
@@ -26,7 +26,7 @@ def extrai_arquivos_da_head(bare_dir, public_dir)
   FileUtils::rm_f public_dir
   FileUtils::mkdir_p public_dir
   Dir.chdir(bare_dir) do
-    logger.debug "Extraindo arquivos em #{public_dir}"
+    logger.info "Extraindo arquivos em #{public_dir}"
     system "git archive --format=tar --prefix=#{public_dir}/ HEAD | (cd ../../../ && tar xf -)"
   end
 end
@@ -49,10 +49,11 @@ post '/artigo' do
     logger.debug "Executando formatafacil em #{public_dir}"
     system "formatafacil artigo"
     
-    logger.info "Iniciando compilação de artigo.tex"
+    logger.info "Iniciando compilação de artigo.tex:"
+    system "head artigo.tex"
     
-    system "/usr/bin/pdflatex -interaction=nonstopmode artigo.tex"
-    system "/usr/bin/pdflatex -interaction=nonstopmode artigo.tex"
+    system "/usr/bin/pdflatex artigo.tex"
+    system "/usr/bin/pdflatex artigo.tex"
   end
   
 end
