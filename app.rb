@@ -3,7 +3,7 @@
 require 'sinatra'
 require 'json'
 require 'fileutils'
-require 'tilt/haml'
+require 'formatafacil/compila'
 
 
 # Configuring Your Server : https://developer.github.com/webhooks/configuring/
@@ -36,17 +36,19 @@ def extrai_arquivos_da_head(bare_dir, public_dir)
 end
 
 get '/artigo/:user/:repo/?' do |user, repo|
+  @user = user
+  @repo = repo
   @pdf_file = "/artigo/#{user}/#{repo}/artigo.pdf"
+  @tex_file = "/artigo/#{user}/#{repo}/artigo.tex"
   @log_file = "/artigo/#{user}/#{repo}/artigo.log"
-  if File.exist?("#{settings.public_folder}/#{@pdf_file}")
+  @pdf_exists = File.exist?("#{settings.public_folder}/#{@pdf_file}")
+  if @pdf_exists
     #File.read("public/#{pdf_file}")
     #redirect pdf_file
     #send_file File.join(settings.public_folder, pdf_file)
     #@data_modificacao = File.mtime(File.join(settings.public_folder, pdf_file))   #=> Tue Apr 08 12:58:04 CDT 2003
     @data_modificacao = File.mtime(File.join(settings.public_folder, @pdf_file)).strftime("%Y-%m-%d %H:%M:%S")
     erb :artigo, :format => :html5
-  elsif File.exist?("public/#{@log_file}")
-    haml :log, :format => :html5
   else
     "Não foi encontrado registro do repositório: '#{user}/#{repo}', você configurou o webhook?"
   end
@@ -73,10 +75,15 @@ post '/artigo' do
     system "formatafacil artigo"
     
     logger.info "Iniciando compilação de artigo.tex:"
-    system "head artigo.tex"
+
+    begin
+      Formatafacil::Compila.new().compila_artigo
+      logger.info "Artigo compilado com sucesso."
+
+    rescue => e
+      logger.error e.message
+    end
     
-    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
-    system "/usr/bin/pdflatex -interaction=batchmode artigo.tex"
   end
   
 end
