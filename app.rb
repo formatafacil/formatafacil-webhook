@@ -4,7 +4,7 @@ require 'sinatra'
 require 'json'
 require 'fileutils'
 require 'formatafacil/compila'
-require 'formatafacil/otmizador_para_web'
+require 'formatafacil/otimizador_para_web'
 
 # Configuring Your Server : https://developer.github.com/webhooks/configuring/
 
