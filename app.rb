@@ -80,8 +80,8 @@ post '/artigo' do
       Formatafacil::Compila.new().compila_artigo
       logger.info "Artigo compilado com sucesso."
 
-      logger.info "Otimizando para web: #{Formatafacil::ARTIGO_PDF}"
       Formatafacil::OtimizadorParaWeb.new(Formatafacil::ARTIGO_PDF).otimiza
+      logger.info "Artigo Otimizando para web: #{Formatafacil::ARTIGO_PDF}"
     rescue => e
       logger.error e.message
     end
