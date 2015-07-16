@@ -4,7 +4,7 @@ require 'sinatra'
 require 'json'
 require 'fileutils'
 require 'formatafacil/compila'
-
+require 'formatafacil/otmizador_para_web'
 
 # Configuring Your Server : https://developer.github.com/webhooks/configuring/
 
@@ -80,6 +80,8 @@ post '/artigo' do
       Formatafacil::Compila.new().compila_artigo
       logger.info "Artigo compilado com sucesso."
 
+      logger.info "Otimizando para web: #{Formatafacil::ARTIGO_PDF}"
+      Formatafacil::OtimizadorParaWeb.new(Formatafacil::ARTIGO_PDF).otimiza
     rescue => e
       logger.error e.message
     end
