@@ -7,7 +7,7 @@ GEM
     formatafacil (0.1.6)
       formatafacil-templates
       gli
-    formatafacil-templates (0.1.2)
+    formatafacil-templates (0.1.3)
     gli (2.13.1)
     json (1.8.3)
     rack (1.6.4)
