@@ -74,14 +74,14 @@ post '/artigo' do
     
     system "formatafacil artigo"
     
-    logger.info "Iniciando compilação de artigo.tex:"
+    logger.info "Iniciando compilação de #{full_name}/#{Formatafacil::ARTIGO_LATEX}"
 
     begin
       Formatafacil::Compila.new().compila_artigo
-      logger.info "Artigo compilado com sucesso."
+      logger.info "Artigo compilado com sucesso: #{full_name}/#{Formatafacil::ARTIGO_PDF}"
 
       Formatafacil::OtimizadorParaWeb.new(Formatafacil::ARTIGO_PDF).otimiza
-      logger.info "Artigo Otimizando para web: #{Formatafacil::ARTIGO_PDF}"
+      logger.info "Artigo Otimizando para web: #{full_name}/#{Formatafacil::ARTIGO_PDF}"
     rescue => e
       logger.error e.message
     end
