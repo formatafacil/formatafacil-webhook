@@ -4,7 +4,7 @@ GEM
     daemons (1.2.3)
     erubis (2.7.0)
     eventmachine (1.0.7)
-    formatafacil (0.1.4)
+    formatafacil (0.1.5)
       formatafacil-templates
       gli
     formatafacil-templates (0.1.0)
