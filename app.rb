@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'json'
 require 'fileutils'
+require 'formatafacil/artigo_tarefa'
 require 'formatafacil/compila'
 require 'formatafacil/otimizador_para_web'
 
@@ -35,6 +36,11 @@ def extrai_arquivos_da_head(bare_dir, public_dir)
   end
 end
 
+##
+# Ao acessar +/artigo/:user/:repo/+ gera-se um artigo baixando o
+# código do github.
+# Não está funcionando atualmente.
+#
 get '/artigo/:user/:repo/?' do |user, repo|
   @user = user
   @repo = repo
@@ -58,34 +64,29 @@ end
 post '/artigo' do
   push = JSON.parse(request.body.read)
   logger.info "I got some JSON: #{push.inspect}"
-  
+
   full_name = push['repository']['full_name'] # edusantana/playground-asciidoc
   owner = full_name.split(/\//)[0] #edusantana
   repo_name = owner = full_name.split(/\//)[1] #playground-asciidoc
   working_dir = full_name
   bare_dir   = "bare/#{full_name}"
   public_dir = "public/artigo/#{full_name}"
-    
+
   cria_ou_atualiza_repositorio(bare_dir, full_name)
   extrai_arquivos_da_head(bare_dir, public_dir)
-   
+
   Dir.chdir(public_dir) do
     logger.debug "Executando formatafacil em #{public_dir}"
-    
-    system "formatafacil artigo"
-    
-    logger.info "Iniciando compilação de #{full_name}/#{Formatafacil::ARTIGO_LATEX}"
-
     begin
-      Formatafacil::Compila.new().compila_artigo
-      logger.info "Artigo compilado com sucesso: #{full_name}/#{Formatafacil::ARTIGO_PDF}"
-
-      Formatafacil::OtimizadorParaWeb.new(Formatafacil::ARTIGO_PDF).otimiza
-      logger.info "Artigo Otimizando para web: #{full_name}/#{Formatafacil::ARTIGO_PDF}"
+      compilador = Formatafacil::Compila.new()
+      compilador.otimizador = Formatafacil::OtimizadorParaWeb.new('artigo.pdf')
+      tarefa = Formatafacil::ArtigoTarefa.new(:compilador => compilador)
+      tarefa.logger = logger
+      tarefa.executa
     rescue => e
       logger.error e.message
     end
-    
+
   end
-  
+
 end
